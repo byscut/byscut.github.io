@@ -79,12 +79,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="TriLife">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="由于网上找到的版本都比较老旧，记录一版现在在用的版本的Scala读写Hbase示例。Scala2.11.8；Spark2.1.0。仅在本机集群通过，供参考。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859package test">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scala（spark）读写Hbase示例">
+<meta property="og:url" content="http://yoursite.com/2019/07/01/Scala（spark）读写Hbase示例/index.html">
 <meta property="og:site_name" content="TriLife">
+<meta property="og:description" content="由于网上找到的版本都比较老旧，记录一版现在在用的版本的Scala读写Hbase示例。Scala2.11.8；Spark2.1.0。仅在本机集群通过，供参考。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859package test">
+<meta property="og:updated_time" content="2019-07-01T03:08:18.463Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TriLife">
+<meta name="twitter:title" content="Scala（spark）读写Hbase示例">
+<meta name="twitter:description" content="由于网上找到的版本都比较老旧，记录一版现在在用的版本的Scala读写Hbase示例。Scala2.11.8；Spark2.1.0。仅在本机集群通过，供参考。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859package test">
 
 
 
@@ -114,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/01/Scala（spark）读写Hbase示例/"/>
 
 
 
 
 
-  <title>TriLife</title>
+  <title>Scala（spark）读写Hbase示例 | TriLife</title>
   
 
 
@@ -139,8 +143,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -213,9 +216,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -245,9 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/01/Scala（spark）读写Hbase示例/" itemprop="url">Scala（spark）读写Hbase示例</a></h1>
+          <h1 class="post-title" itemprop="name headline">Scala（spark）读写Hbase示例</h1>
         
 
         <div class="post-meta">
@@ -297,15 +298,11 @@
       
 
       
-        
-          
-            <p>由于网上找到的版本都比较老旧，记录一版现在在用的版本的Scala读写Hbase示例。Scala2.11.8；Spark2.1.0。仅在本机集群通过，供参考。</p>
+        <p>由于网上找到的版本都比较老旧，记录一版现在在用的版本的Scala读写Hbase示例。Scala2.11.8；Spark2.1.0。仅在本机集群通过，供参考。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">package test</div><div class="line"></div><div class="line">import org.apache.hadoop.conf.Configuration</div><div class="line">import org.apache.hadoop.hbase._</div><div class="line">import org.apache.hadoop.hbase.client._</div><div class="line">import org.apache.hadoop.hbase.io.ImmutableBytesWritable</div><div class="line">import org.apache.hadoop.hbase.mapreduce.&#123;TableInputFormat, TableOutputFormat&#125;</div><div class="line">import org.apache.hadoop.hbase.util.Bytes</div><div class="line">import org.apache.hadoop.mapreduce.Job</div><div class="line">import org.apache.spark.sql.SparkSession</div><div class="line"></div><div class="line">object TestHBase &#123;</div><div class="line">  def main(args: Array[String]) &#123;</div><div class="line"></div><div class="line">    val spark = SparkSession.builder().appName(&quot;LinkStart&quot;).master(&quot;local&quot;).getOrCreate()</div><div class="line">    val sc = spark.sparkContext</div><div class="line">    val conf = HBaseConfiguration.create()</div><div class="line">    //设置zookeeper连接端口，默认2181</div><div class="line">    conf.set(&quot;hbase.zookeeper.quorum&quot;, &quot;集群地址ip,逗号分隔&quot;) // HBase集群服务器地址（任一台）</div><div class="line">    conf.set(&quot;hbase.zookeeper.property.clientPort&quot;, &quot;2181&quot;) // zookeeper客户端访问端口</div><div class="line">    conf.set(&quot;hbase.master&quot;, &quot;master:port&quot;)</div><div class="line">    //设置查询的表名</div><div class="line">    conf.set(TableInputFormat.INPUT_TABLE, &quot;test2019:bulletin&quot;)</div><div class="line">    val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],</div><div class="line">      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],</div><div class="line">      classOf[org.apache.hadoop.hbase.client.Result])</div><div class="line">    val count = hBaseRDD.count()</div><div class="line">    println(&quot;Students RDD Count:&quot; + count)</div><div class="line">    hBaseRDD.cache()</div><div class="line"></div><div class="line">    //遍历输出</div><div class="line">    hBaseRDD.foreach(&#123; case (_,result) =&gt;</div><div class="line">      val key = Bytes.toString(result.getRow)</div><div class="line">      val oldData = Bytes.toString(result.getValue(&quot;docs&quot;.getBytes,&quot;insert_time&quot;.getBytes))</div><div class="line">      val newData = Bytes.toString(result.getValue(&quot;docs&quot;.getBytes,&quot;latest&quot;.getBytes))</div><div class="line">      println(&quot;Row key:&quot;+key+&quot; OLD:&quot;+oldData+&quot; NEW:&quot;+newData)</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    </div><div class="line">    val tablename = &quot;test2019:bull&quot;</div><div class="line">    sc.hadoopConfiguration.set(TableOutputFormat.OUTPUT_TABLE, tablename)</div><div class="line"></div><div class="line">    val job = new Job(sc.hadoopConfiguration)</div><div class="line">    job.setOutputKeyClass(classOf[ImmutableBytesWritable])</div><div class="line">    job.setOutputValueClass(classOf[Result])</div><div class="line">    job.setOutputFormatClass(classOf[TableOutputFormat[ImmutableBytesWritable]])</div><div class="line"></div><div class="line">    val indataRDD = sc.makeRDD(Array(&quot;3,Rongcheng,M,26&quot;,&quot;4,Guanhua,M,27&quot;)) //构建两行记录</div><div class="line">    val rdd = indataRDD.map(_.split(&apos;,&apos;)).map&#123;arr=&gt;&#123;</div><div class="line">      val put = new Put(Bytes.toBytes(arr(0))) //行健的值</div><div class="line">      put.add(Bytes.toBytes(&quot;docs&quot;),Bytes.toBytes(&quot;name&quot;),Bytes.toBytes(arr(1)))  //info:name列的值</div><div class="line">      put.add(Bytes.toBytes(&quot;docs&quot;),Bytes.toBytes(&quot;gender&quot;),Bytes.toBytes(arr(2)))  //info:gender列的值</div><div class="line">      put.add(Bytes.toBytes(&quot;docs&quot;),Bytes.toBytes(&quot;age&quot;),Bytes.toBytes(arr(3).toInt))  //info:age列的值</div><div class="line">      (new ImmutableBytesWritable, put)</div><div class="line">    &#125;&#125;</div><div class="line">    rdd.saveAsNewAPIHadoopDataset(job.getConfiguration())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Maven配置文件如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</div><div class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line"></div><div class="line">    &lt;groupId&gt;com.haizhi.data&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;DataScala&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</div><div class="line"></div><div class="line">    &lt;properties&gt;</div><div class="line">        &lt;spark.version&gt;2.1.0&lt;/spark.version&gt;</div><div class="line">        &lt;scala.version&gt;2.11&lt;/scala.version&gt;</div><div class="line">        &lt;hadoop.version&gt;2.5.0&lt;/hadoop.version&gt;</div><div class="line">        &lt;hbase.version&gt;1.2.0&lt;/hbase.version&gt;</div><div class="line">    &lt;/properties&gt;</div><div class="line"></div><div class="line">    &lt;dependencies&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.mongodb.scala&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;mongo-scala-driver_2.11&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;2.6.0&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;net.minidev&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;json-smart&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;2.3&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spark-core_$&#123;scala.version&#125;&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;spark.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spark-streaming_$&#123;scala.version&#125;&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;spark.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spark-sql_$&#123;scala.version&#125;&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;spark.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spark-hive_$&#123;scala.version&#125;&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;spark.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spark-mllib_$&#123;scala.version&#125;&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;spark.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line"></div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;hadoop.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line"></div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;hadoop.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line"></div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;hadoop.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.hbase&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;hbase-client&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;hbase.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.hbase&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;hbase-server&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;hbase.version&#125;&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line"></div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.apache.hbase&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;hbase&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;$&#123;hbase.version&#125;&lt;/version&gt;</div><div class="line">            &lt;type&gt;pom&lt;/type&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line">    &lt;/dependencies&gt;</div><div class="line"></div><div class="line">    &lt;build&gt;</div><div class="line">        &lt;plugins&gt;</div><div class="line"></div><div class="line">            &lt;plugin&gt;</div><div class="line">                &lt;groupId&gt;org.scala-tools&lt;/groupId&gt;</div><div class="line">                &lt;artifactId&gt;maven-scala-plugin&lt;/artifactId&gt;</div><div class="line">                &lt;version&gt;2.15.2&lt;/version&gt;</div><div class="line">                &lt;executions&gt;</div><div class="line">                    &lt;execution&gt;</div><div class="line">                        &lt;goals&gt;</div><div class="line">                            &lt;goal&gt;compile&lt;/goal&gt;</div><div class="line">                            &lt;goal&gt;testCompile&lt;/goal&gt;</div><div class="line">                        &lt;/goals&gt;</div><div class="line">                    &lt;/execution&gt;</div><div class="line">                &lt;/executions&gt;</div><div class="line">            &lt;/plugin&gt;</div><div class="line"></div><div class="line">            &lt;plugin&gt;</div><div class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">                &lt;version&gt;3.6.0&lt;/version&gt;</div><div class="line">                &lt;configuration&gt;</div><div class="line">                    &lt;source&gt;1.8&lt;/source&gt;</div><div class="line">                    &lt;target&gt;1.8&lt;/target&gt;</div><div class="line">                &lt;/configuration&gt;</div><div class="line">            &lt;/plugin&gt;</div><div class="line"></div><div class="line">            &lt;plugin&gt;</div><div class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">                &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</div><div class="line">                &lt;version&gt;2.19&lt;/version&gt;</div><div class="line">                &lt;configuration&gt;</div><div class="line">                    &lt;skip&gt;true&lt;/skip&gt;</div><div class="line">                &lt;/configuration&gt;</div><div class="line">            &lt;/plugin&gt;</div><div class="line"></div><div class="line">        &lt;/plugins&gt;</div><div class="line">    &lt;/build&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
 
-          
-        
       
     </div>
     
@@ -322,132 +319,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/First-post/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suyeye">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TriLife">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/21/First-post/" itemprop="url">First post</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-21T12:46:13+08:00">
-                2017-10-21
-              </time>
+              <a href="/2017/10/21/First-post/" rel="next" title="First post">
+                <i class="fa fa-chevron-left"></i> First post
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>What’s the Text??</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -457,138 +350,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suyeye">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TriLife">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/21/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-21T10:16:01+08:00">
-                2017-10-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -596,6 +362,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -794,6 +564,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
